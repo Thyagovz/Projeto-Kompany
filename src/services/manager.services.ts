@@ -1,6 +1,5 @@
-import { prisma } from "../prisma/prisma.client";
-
-import { ManagerCreate } from "./interface";
+import { prisma } from "../../prisma/prisma.client";
+import { ManagerCreate } from "../interface";
 
 export default class ManagerService {
   public create = async (payload: ManagerCreate) => {
@@ -10,8 +9,8 @@ export default class ManagerService {
   public findAll = async () => {
     return await prisma.manager.findMany();
   };
+
+  public findOne = async (managerId: number) => {
+    return await prisma.manager.findFirst({ where: { id: managerId } });
+  };
 }
-//   public findOne = (managerId: number) => {
-//     return this.managerDatabase.find((manager) => manager.id === managerId);
-//   };
-// }
