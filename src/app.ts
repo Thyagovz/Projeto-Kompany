@@ -1,38 +1,34 @@
-import { ManagerService } from "./services";
+import ManagerService from "./services";
 import express from "express";
 
 const app = express();
 app.use(express.json);
+const managerService = new ManagerService();
 
 app.get("/", (req, res) => {
   return res.json({ message: "ola mundo" });
 });
 
 app.get("/managers", (req, res) => {
-  const managerService = new ManagerService();
   return res.json(managerService.findAll());
 });
 
 app.post("/managers", (req, res) => {
-  const managerService = new ManagerService();
-  return res.json({ message: "POST /managers" });
+  console.log(req.body);
+  const manager = managerService.create(req.body);
+  return res.status(201).json(manager);
 });
 
-app.listen(3000, () => console.log("Servidor rodando na porta 300"));
+app.get("/managers/:id", (req, res) => {
+  console.log(req.params.id);
+  console.log(typeof req.params.id);
 
-const payload1 = {
-  id: 1,
-  name: "Chrystian",
-  email: "chrystian@kenzie.com.br",
-};
+  const foundManager = managerService.findOne(Number(req.params.id));
 
-const payload2 = {
-  id: 2,
-  name: "Pedro",
-  email: "pedro@kenzie.com.br",
-};
+  if (!foundManager) {
+    return res.status(404).json({ error: "Manager not found" });
+  }
+  return res.json(foundManager);
+});
 
-const managerService = new ManagerService();
-
-const manager1 = managerService.create(payload1);
-const manager2 = managerService.create(payload2);
+app.listen(3000, () => console.log("Servidor rodando na porta 3000"));

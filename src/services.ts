@@ -1,23 +1,16 @@
+import { prisma } from "../prisma/prisma.client";
 import { Manager, ManagerCreate } from "./interface";
 
-export class ManagerService {
-  private managerDatabase: Manager[] = [];
-
-  private generateNextId = () => {
-    const lastManager = this.managerDatabase.sort((a, b) => a.id - b.id).at(-1);
-    return lastManager ? lastManager.id + 1 : 1;
+export default class ManagerService {
+  public create = async (payload: ManagerCreate) => {
+    return await prisma.manager.create({ data: payload });
   };
 
-  public create = (payload: ManagerCreate) => {
-    const newManager = {
-      ...payload,
-      id: this.generateNextId(),
-    };
-    this.managerDatabase.push(newManager);
-    return newManager;
+  public findAll = async () => {
+    return await prisma.manager.findMany();
   };
 
-  public findAll = () => {
-    return this.managerDatabase;
-  };
-}
+//   public findOne = (managerId: number) => {
+//     return this.managerDatabase.find((manager) => manager.id === managerId);
+//   };
+// }
