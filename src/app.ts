@@ -9,26 +9,26 @@ app.get("/", (req, res) => {
   return res.json({ message: "ola mundo" });
 });
 
-app.get("/managers", (req, res) => {
-  return res.json(managerService.findAll());
+app.get("/managers", async (req, res) => {
+  const managers = await managerService.findAll();
+  return res.json(managers);
 });
 
-app.post("/managers", (req, res) => {
-  console.log(req.body);
-  const manager = managerService.create(req.body);
+app.post("/managers", async (req, res) => {
+  const manager = await managerService.create(req.body);
   return res.status(201).json(manager);
 });
 
-app.get("/managers/:id", (req, res) => {
-  console.log(req.params.id);
-  console.log(typeof req.params.id);
+// app.get("/managers/:id", (req, res) => {
+//   console.log(req.params.id);
+//   console.log(typeof req.params.id);
 
-  const foundManager = managerService.findOne(Number(req.params.id));
+//   const foundManager = managerService.findOne(Number(req.params.id));
 
-  if (!foundManager) {
-    return res.status(404).json({ error: "Manager not found" });
-  }
-  return res.json(foundManager);
-});
+//   if (!foundManager) {
+//     return res.status(404).json({ error: "Manager not found" });
+//   }
+//   return res.json(foundManager);
+// });
 
 app.listen(3000, () => console.log("Servidor rodando na porta 3000"));
