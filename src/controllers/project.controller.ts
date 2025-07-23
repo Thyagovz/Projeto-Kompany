@@ -1,8 +1,17 @@
 import { Request, Response } from "express";
 import { ProjectService } from "../services";
+import { ZodError } from "zod";
+import { projectCreateSchema } from "../schemas/project.schemas";
 
 export class ProjectController {
   public create = async (req: Request, res: Response) => {
+    try {
+      req.body = projectCreateSchema.parse(req.body);
+    } catch (error) {
+      if (error instanceof ZodError)
+        return res.status(400).json({ error: error.issues });
+    }
+
     const projectService = new ProjectService();
     const project = await projectService.create(req.body);
 

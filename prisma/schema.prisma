@@ -16,7 +16,7 @@ datasource db {
 
 model Manager {
   id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(255)
+  name      String   @db.VarChar(20)
   email     String   @db.VarChar(255)
   createdAt DateTime @default(now())
   project   Project?
