@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsnd --cls --rs src/app.ts"
+    "dev": "tsnd --cls --rs src/app.ts",
+    "migrate": "prisma migrate dev",
+    "studio": "prisma studio"
   },
   "repository": {
     "type": "git",

@@ -1,1 +1,2 @@
-export { default as ManagerService } from "./manager.services";
+export { ManagerService } from "./manager.services";
+export { ProjectService } from "./project.services";

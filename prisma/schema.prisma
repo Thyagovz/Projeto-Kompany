@@ -15,8 +15,18 @@ datasource db {
 }
 
 model Manager {
-  id       Int      @id @default(autoincrement())
-  name     String   @db.VarChar(255)
-  email    String   @db.VarChar(255)
-  createAt DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  email     String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  project   Project?
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  description String   @db.Text
+  createdAt   DateTime @default(now())
+  managerId   Int      @unique
+  manager     Manager  @relation(fields: [managerId], references: [id])
 }
